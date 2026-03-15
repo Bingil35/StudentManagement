@@ -13,6 +13,7 @@ namespace StudentManagement
 {
     public partial class form_login : Form
     {
+
         public form_login()
         {
             InitializeComponent();
@@ -44,9 +45,26 @@ namespace StudentManagement
 
         }
 
+
+        // Event handler for login system
         private void btn_login_Click(object sender, EventArgs e)
         {
+            string username = tbox_username.Text;
+            string password = tbox_password.Text;
 
+            DataBaseDataContext db = new DataBaseDataContext();
+            var account = db.Accounts.FirstOrDefault(a => a.Username == username && a.Password == password);
+            if (account != null)
+            {
+                MessageBox.Show("Đăng nhập thành công!");
+                form_dashboard mainForm = new form_dashboard();
+                mainForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác!");
+            }
         }
 
         private void tbox_username_TextChanged(object sender, EventArgs e)
