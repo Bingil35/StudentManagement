@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,31 @@ namespace StudentManagement
 
         private void form_dashboard_Load(object sender, EventArgs e)
         {
+            // load UI/UX
+            SetRoundedRegion(pn_information, 20);
+            SetRoundedRegion(btn_add, 10);
+            SetRoundedRegion(btn_edit, 10);
+            SetRoundedRegion(btn_delete, 10);
+            SetRoundedRegion(btn_search, 10);
+
+            // load data
             load_data();
         }
+
+        public void SetRoundedRegion(Control control, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(new Rectangle(0, 0, radius, radius), 180, 90);
+            path.AddArc(new Rectangle(control.Width - radius, 0, radius, radius), 270, 90);
+            path.AddArc(new Rectangle(control.Width - radius, control.Height - radius, radius, radius), 0, 90);
+            path.AddArc(new Rectangle(0, control.Height - radius, radius, radius), 90, 90);
+            path.CloseFigure();
+
+            control.Region = new Region(path);
+        }
+
+
 
         private void load_data()
         {
